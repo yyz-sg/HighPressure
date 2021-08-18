@@ -18,5 +18,13 @@
     <ClCompile Include="HighPressure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PathChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PathChecker.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
