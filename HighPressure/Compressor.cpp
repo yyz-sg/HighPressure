@@ -9,12 +9,12 @@ Description	: Source file for compressor class. Actual
 			  compressing requirement.
 ******************************************************/
 #include "Compressor.hpp"
-#include "PathChecker.hpp"
+#include "PathSystem.hpp"
 
 Compressor::Compressor(std::string inputPath, std::string outputFileName, bool recursive)
 {
 	m_enErrorStatus = CompressorErrorStatus::NoError;
-	PathChecker pathCheck;
+	PathSystem pathCheck;
 	if (pathCheck.CheckPath(inputPath) == PathType::Directory)
 	{
 

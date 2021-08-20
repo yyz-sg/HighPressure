@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
     }
     else if (clp.GetParseStatus() == CommandLineParseStatus::ParsedPaths)
     {
-        Compressor comp(clp.GetInputDirectory(), clp.GetOutputFileName, clp.GetRecursive());
+        Compressor comp(clp.GetInputDirectory(), clp.GetOutputFileName(), clp.GetRecursive());
         if (comp.GetCompressStatus() != CompressorErrorStatus::NoError)
         {
             //Print out error
