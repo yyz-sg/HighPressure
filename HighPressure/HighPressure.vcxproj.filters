@@ -18,18 +18,18 @@
     <ClCompile Include="HighPressure.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PathChecker.cpp">
+    <ClCompile Include="CommandLineParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CommandLineParser.cpp">
+    <ClCompile Include="PathSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PathChecker.hpp">
+    <ClInclude Include="CommandLineParser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommandLineParser.hpp">
+    <ClInclude Include="PathSystem.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

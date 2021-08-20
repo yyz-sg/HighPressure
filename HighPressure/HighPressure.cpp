@@ -5,8 +5,17 @@ Author		: YYZ
 
 Description	: Main entry file for HighPressure program.
 ******************************************************/
-
 #include "CommandLineParser.hpp"
+
+void PrintVersion()
+{
+    
+}
+
+void PrintHelp()
+{
+
+}
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +23,7 @@ int main(int argc, char *argv[])
 
     if (clp.GetParseStatus() == CommandLineParseStatus::ParsedVersion)
     {
-        //TODO : print version
+        PrintVersion();
     }
     else if (clp.GetParseStatus() == CommandLineParseStatus::ParsedPaths)
     {
@@ -22,6 +31,6 @@ int main(int argc, char *argv[])
     }
     else if (clp.GetParseStatus() == CommandLineParseStatus::ParsingError)
     {
-        //TODO : print help maybe?
+        PrintHelp();
     }
 }
