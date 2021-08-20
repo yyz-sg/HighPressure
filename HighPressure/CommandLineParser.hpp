@@ -12,7 +12,7 @@ Description	: Header file for command line parsing object.
 #ifndef COMMAND_LINE_PARSER_HPP
 #define COMMAND_LINE_PARSER_HPP
 
-#include <boost/algorithm/string.hpp>
+#include <string>
 
 enum class CommandLineParseStatus
 {

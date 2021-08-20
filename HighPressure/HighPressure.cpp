@@ -6,7 +6,19 @@ Author		: YYZ
 Description	: Main entry file for HighPressure program.
 ******************************************************/
 
+#include <iostream>
+#include "Version.h"
 #include "CommandLineParser.hpp"
+
+void PrintVersion()
+{
+    std::cout <<
+        "HighPressure version : " 
+        + std::to_string(HIGHPRESSURE_MAJOR_VERSION_NUMBER) + "."
+        + std::to_string(HIGHPRESSURE_MINOR_VERSION_NUMBER) + "."
+        + std::to_string(HIGHPRESSURE_PATCH_NUMBER)
+        << std::endl;
+}
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +26,7 @@ int main(int argc, char *argv[])
 
     if (clp.GetParseStatus() == CommandLineParseStatus::ParsedVersion)
     {
-        //TODO : print version
+        PrintVersion();
     }
     else if (clp.GetParseStatus() == CommandLineParseStatus::ParsedPaths)
     {

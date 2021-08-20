@@ -11,7 +11,7 @@ Description	: Header file for path checking object.
 #ifndef PATH_CHECKER_HPP
 #define PATH_CHECKER_HPP
 
-#include <boost/algorithm/string.hpp>
+#include <string>
 
 namespace PATHCHECK {
 
