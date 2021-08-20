@@ -42,10 +42,10 @@ CommandLineParser::CommandLineParser(int argc, char* argv[])
 		po::store(po::command_line_parser(argc, argv).options(cmdline_options).positional(p).run(), cmdline_map);
 		po::notify(cmdline_map);
 	}
-	catch (std::exception e)
+	catch (std::exception /*e*/)
 	{
 		//Parse Error, update status and error code
-		m_strError = e.what();
+		m_strError = "Too many argument or wrong argument provided.";
 		m_enStatus = CommandLineParseStatus::ParsingError;
 	}
 	/**** Try Parse Command Line ****/
@@ -66,6 +66,12 @@ CommandLineParser::CommandLineParser(int argc, char* argv[])
 
 		//Update Status
 		m_enStatus = CommandLineParseStatus::ParsedPaths;
+	}
+	//Only 1 directory input
+	else if(m_enStatus == CommandLineParseStatus::NotParsed)
+	{
+		m_strError = "Too little argument.";
+		m_enStatus = CommandLineParseStatus::ParsingError;
 	}
 	/**** Store Parsing Result ****/
 }

@@ -40,6 +40,8 @@ public:
 
 	const std::string GetOutputFileName() { return m_strOutputFileName; }
 
+	const std::string GetError() { return m_strError; }
+
 	const bool GetRecursive() { return m_boRecursive; }
 
 	const bool GetPrintVersion() { return m_boPrintVersion; }

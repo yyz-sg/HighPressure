@@ -20,6 +20,16 @@ void PrintVersion()
         << std::endl;
 }
 
+void PrintHelp()
+{
+    std::cout << "Usage : HighPressure [-v] [-r] [Input Directory] [Output file name]\n" \
+        "  [Input Directory]   The directory to compress\n" \
+        "  [Output file name]  [Output file name].zip that will be created in one directory up of [Input Directory]\n" \
+        "  -v                  Print version and quit (even if there are other argument)\n" \
+        "  -r (optional)       Recursively compress files and directory in the [Input Directory]\n"
+        << std::endl;
+}
+
 int main(int argc, char *argv[])
 {
     CommandLineParser clp(argc, argv);
@@ -34,6 +44,7 @@ int main(int argc, char *argv[])
     }
     else if (clp.GetParseStatus() == CommandLineParseStatus::ParsingError)
     {
-        //TODO : print help maybe?
+        std::cout << clp.GetError() << std::endl;
+        PrintHelp();
     }
 }
