@@ -151,10 +151,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CommandLineParser.cpp" />
+    <ClCompile Include="Compressor.cpp" />
     <ClCompile Include="HighPressure.cpp" />
     <ClCompile Include="PathChecker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Compressor.hpp" />
     <ClInclude Include="PathChecker.hpp" />
     <ClInclude Include="Version.h" />
   </ItemGroup>
