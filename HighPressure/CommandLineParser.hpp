@@ -1,3 +1,14 @@
+/*****************************************************
+File Name	: CommandLineParser.hpp
+
+Author		: YYZ
+
+Description	: Header file for command line parsing object.
+			  Parse command line arguments during constructor.
+			  Expose function to get parsed arguments and parsing
+			  status.
+******************************************************/
+
 #ifndef COMMAND_LINE_PARSER_HPP
 #define COMMAND_LINE_PARSER_HPP
 

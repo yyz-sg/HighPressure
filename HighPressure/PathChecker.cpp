@@ -1,3 +1,13 @@
+/*****************************************************
+File Name	: PathChecker.cpp
+
+Author		: YYZ
+
+Description	: Source file for path checking object.
+			  Check path existance and return if path
+			  is directory, regular file or others
+******************************************************/
+
 #include "PathChecker.hpp"
 #include <boost/filesystem.hpp>
 

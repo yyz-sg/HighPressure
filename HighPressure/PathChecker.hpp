@@ -1,3 +1,13 @@
+/*****************************************************
+File Name	: PathChecker.hpp
+
+Author		: YYZ
+
+Description	: Header file for path checking object.
+			  Check path existance and return if path 
+			  is directory, regular file or others
+******************************************************/
+
 #ifndef PATH_CHECKER_HPP
 #define PATH_CHECKER_HPP
 

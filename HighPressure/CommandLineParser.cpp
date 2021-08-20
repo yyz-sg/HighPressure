@@ -1,3 +1,14 @@
+/*****************************************************
+File Name	: CommandLineParser.cpp
+
+Author		: YYZ
+
+Description	: Source file for command line parsing object.
+			  Parse command line arguments during constructor.
+			  Expose function to get parsed arguments and parsing
+			  status.
+******************************************************/
+
 #include "CommandLineParser.hpp"
 #include <boost/program_options.hpp>
 
