@@ -7,7 +7,7 @@ Description	: Main entry file for HighPressure program.
 ******************************************************/
 
 #include <iostream>
-#include "Version.h"
+#include "Version.hpp"
 #include "CommandLineParser.hpp"
 #include "Compressor.hpp"
 
@@ -25,7 +25,8 @@ void PrintHelp()
 {
     std::cout << "Usage : HighPressure [-v] [-r] \"[Input Directory]\" \"[Output file name]\"\n" \
         "  [Input Directory]   The directory to compress. Please include the quoation marks.\n" \
-        "  [Output file name]  [Output file name].zip that will be created in one directory up of [Input Directory]. Please include the quoation marks.\n" \
+        "  [Output file name]  [Output file name].zip that will be created in one directory up of [Input Directory].\n" \
+        "                      Please include the quoation marks. Existing file will be deleted.\n" \
         "  -v                  Print version and quit (even if there are other argument)\n" \
         "  -r (optional)       Recursively compress files and directory in the [Input Directory]\n"
         << std::endl;
@@ -42,15 +43,14 @@ int main(int argc, char *argv[])
     else if (clp.GetParseStatus() == CommandLineParseStatus::ParsedPaths)
     {
         Compressor comp(clp.GetInputDirectory(), clp.GetOutputFileName(), clp.GetRecursive());
-        if (comp.GetCompressStatus() != CompressorErrorStatus::NoError)
+        if (comp.Compress() == CompressorErrorStatus::NoError)
         {
-            //Print out error
+            //TODO : Print final zip file size
         }
         else
         {
-            //Get zipped file size and print out.
+            //TODO : Print Error
         }
-
     }
     else if (clp.GetParseStatus() == CommandLineParseStatus::ParsingError)
     {
