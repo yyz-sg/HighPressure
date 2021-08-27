@@ -36,9 +36,7 @@ private:
 	~PathSystem();
 	PathSystem(PathSystem const&) = delete;
 	void operator=(PathSystem const&) = delete;
-	bool writeContent(uint16_t& content);
-	bool writeContent(uint32_t& content);
-	bool writeContent(const char* content, uint16_t& length);
+	bool writeContent(const char* content, size_t size);
 public:
 	static PathSystem& GetInstance()
 	{

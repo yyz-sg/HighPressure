@@ -20,7 +20,7 @@ void compress_buffer(void* in_buffer, size_t in_buffer_size, std::vector<uint8_t
 {
     std::vector<uint8_t> buffer;
 
-    const size_t BUFSIZE = 128 * 1024;
+    const size_t BUFSIZE = buffer_size;
     uint8_t temp_buffer[BUFSIZE];
 
     z_stream strm;

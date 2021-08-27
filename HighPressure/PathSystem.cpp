@@ -78,11 +78,11 @@ void PathSystem::GetListOfFilePaths(std::vector<std::pair<std::string, std::stri
 			std::string newMainPath = "";
 			if (mainPath != "")
 			{
-				newMainPath = fs::path(mainPath).string() +  p.leaf().string() + "\\";
+				newMainPath = fs::path(mainPath).string() +  p.leaf().string() + "/";
 			}
 			else
 			{
-				newMainPath = p.leaf().string() + "\\";
+				newMainPath = p.leaf().string() + "/";
 			}
 			filePathList.push_back(std::pair<std::string,std::string>(newMainPath, folder));
 			for (auto& entry : boost::make_iterator_range(fs::directory_iterator(p), {}))
@@ -117,39 +117,11 @@ bool PathSystem::OpenZipFile(std::string outputFilePath)
 	return false;
 }
 
-bool PathSystem::writeContent(uint16_t& content)
+bool PathSystem::writeContent(const char* content, size_t size)
 {
 	try
 	{
-		char* b = (char*)&content;
-		m_ofsFileStream.write(b, 2);
-	}
-	catch (...)
-	{
-		return false;
-	}
-	return true;
-}
-
-bool PathSystem::writeContent(uint32_t& content)
-{
-	try
-	{
-		char* b = (char*)&content;
-		m_ofsFileStream.write(b, 4);
-	}
-	catch (...)
-	{
-		return false;
-	}
-	return true;
-}
-
-bool PathSystem::writeContent(const char* content, uint16_t& length)
-{
-	try
-	{
-		m_ofsFileStream.write(content, length);
+		m_ofsFileStream.write((char*)content, size);
 	}
 	catch (...)
 	{
@@ -163,23 +135,25 @@ bool PathSystem::WriteLocalFileHeader(LocalFileHeader* localFileHeader, std::vec
 	bool ret = true;
 	try
 	{
-		ret = writeContent(localFileHeader->localHeaderSignature);
-		ret = writeContent(localFileHeader->minVersion);
-		ret = writeContent(localFileHeader->genPurposeFlag);
-		ret = writeContent(localFileHeader->compressionMethod);
-		ret = writeContent(localFileHeader->lastModTime);
-		ret = writeContent(localFileHeader->lastModDate);
-		ret = writeContent(localFileHeader->uncompressedCRC32);
-		ret = writeContent(localFileHeader->compressedSize);
-		ret = writeContent(localFileHeader->uncompressedSize);
-		ret = writeContent(localFileHeader->fileNameLength);
-		ret = writeContent(localFileHeader->extraFieldLength);
-		ret = writeContent(localFileHeader->fileName, localFileHeader->fileNameLength);
+		ret = ret && writeContent((char*)&localHeaderSingnature, 4);
+		ret = ret && writeContent((char*)&minVersion, 2);
+		ret = ret && writeContent((char*)&localFileHeader->genPurposeFlag, 2);
+		ret = ret && writeContent((char*)&localFileHeader->compressionMethod, 2);
+		ret = ret && writeContent((char*)&localFileHeader->lastModTime, 2);
+		ret = ret && writeContent((char*)&localFileHeader->lastModDate, 2);
+		ret = ret && writeContent((char*)&localFileHeader->uncompressedCRC32, 4);
+		ret = ret && writeContent((char*)&localFileHeader->compressedSize, 4);
+		ret = ret && writeContent((char*)&localFileHeader->uncompressedSize, 4);
+		ret = ret && writeContent((char*)&localFileHeader->fileNameLength, 2);
+		ret = ret && writeContent((char*)&localFileHeader->extraFieldLength, 2);
+		ret = ret && writeContent((char*)(localFileHeader->fileName).c_str(), localFileHeader->fileNameLength);
 		//only write buffer in if its not empty, i.e. regular file
 		if (!buffer.empty())
 		{
-			char* streamPtr = (char*)&buffer[0];
-			m_ofsFileStream.write(streamPtr, sizeof(buffer));
+			for (auto& i : buffer)
+			{
+				ret = ret && writeContent((char*)&i, 1);
+			}
 		}
 	}
 	catch (...)

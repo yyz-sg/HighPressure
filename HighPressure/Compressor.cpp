@@ -56,8 +56,6 @@ const CompressorErrorStatus Compressor::Compress()
 			{
 				//Creating of local file header
 				LocalFileHeader zLHeader;
-				zLHeader.localHeaderSignature = LOCALHEADERSIGNATURE;
-				zLHeader.minVersion = MIN_ZIP_VERSION;
 				zLHeader.genPurposeFlag = 0;
 				zLHeader.compressionMethod = 0;
 				zLHeader.uncompressedCRC32 = 0;
@@ -65,8 +63,13 @@ const CompressorErrorStatus Compressor::Compress()
 				zLHeader.uncompressedSize = 0;
 				zLHeader.fileNameLength = filePath.first.length();
 				zLHeader.extraFieldLength = 0;
-				zLHeader.fileName = filePath.first.c_str();
-
+				zLHeader.fileName = filePath.first;
+				tm ltm;
+				PathSystem::GetInstance().GetLastWriteTime(&ltm, filePath.second);
+				zLHeader.lastModTime = ltm.tm_hour << 11 | ltm.tm_min << 5 | (ltm.tm_sec / 2); // 5 bit sec (divide by 2), 6 bit min, 5 bit hour
+				//zip date format is from 1980 but tm format is from 1900 so minus 80 but remain 0 if there is no date
+				//5 bit day, 4 bit month, 7 bit year
+				zLHeader.lastModDate = (ltm.tm_year < 80 ? 0 : ltm.tm_year - 80) << 9 | (ltm.tm_mon + 1) << 5 | ltm.tm_mday; 
 				//Actual compressing of Data
 				if (PathSystem::GetInstance().CheckPath(filePath.second) == PathType::Regular_File)
 				{
@@ -86,7 +89,16 @@ const CompressorErrorStatus Compressor::Compress()
 							std::vector<uint8_t> outBuffer;
 							compress_buffer((void*)buffer, filelen, outBuffer);
 							//Adding remaining data to local file header
+							zLHeader.compressionMethod = DEFLATE_COMPRESSION_METHOD;
+							zLHeader.compressedSize = sizeof(outBuffer);
+							zLHeader.uncompressedSize = filelen;
+							zLHeader.uncompressedCRC32 = 0; //TODO add CRC to file
 							//Adding local file header then buffer to zip
+							if (!PathSystem::GetInstance().WriteLocalFileHeader(&zLHeader, outBuffer))
+							{
+								m_enErrorStatus = CompressorErrorStatus::CompressionFailed;
+								break;
+							}
 						}
 						else
 						{
@@ -104,21 +116,12 @@ const CompressorErrorStatus Compressor::Compress()
 				else
 				{
 					//Directly write folder data to zip
-					if (!written)
+					std::vector<uint8_t> emptyVec;
+					if (!PathSystem::GetInstance().WriteLocalFileHeader(&zLHeader, emptyVec))
 					{
-						tm ltm;
-						PathSystem::GetInstance().GetLastWriteTime(&ltm, filePath.second);
-						zLHeader.lastModTime = ltm.tm_hour << 11 | ltm.tm_min << 5 | (ltm.tm_sec / 2); // 5 bit sec (divide by 2), 6 bit min, 5 bit hour
-						//zip date format is from 1980 but tm format is from 1900 so minus 80 but remain 0 if there is no date
-						zLHeader.lastModDate = (ltm.tm_year < 80 ? 0 : ltm.tm_year - 80) << 9 | (ltm.tm_mon + 1) << 5 | ltm.tm_mday; // 5 bit day, 4 bit month, 7 bit year
-						std::vector<uint8_t> emptyVec;
-						if (!PathSystem::GetInstance().WriteLocalFileHeader(&zLHeader, emptyVec))
-						{
-							m_enErrorStatus = CompressorErrorStatus::CompressionFailed;
-							break;
-						}
-					}
-					written = true;
+						m_enErrorStatus = CompressorErrorStatus::CompressionFailed;
+						break;
+					}	
 				}
 
 			}

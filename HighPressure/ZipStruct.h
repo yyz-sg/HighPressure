@@ -2,8 +2,8 @@
 #define ZIP_STRUCT_H
 
 #include <string>
+#include <vector>
 
-#define LOCALHEADERSIGNATURE       (0x04034b50)
 #define MIN_ZIP_VERSION            (20)
 #define DEFLATE_COMPRESSION_METHOD (8)
 
@@ -11,9 +11,13 @@
 #define VERSIONMADEBY   (0x0) /* platform depedent */
 #endif
 
+const uint32_t localHeaderSingnature = 0x04034b50;
+const uint32_t centralHeaderSignature = 0x02014b50;
+const uint32_t endOfCentralRecordSignature = 0x504b0506;
+const uint16_t minVersion = 20;
+const uint16_t diskStart = 0;
+
 typedef struct {
-	uint32_t localHeaderSignature;
-	uint16_t minVersion;
 	uint16_t genPurposeFlag;
 	uint16_t compressionMethod;
 	uint16_t lastModTime;
@@ -23,11 +27,22 @@ typedef struct {
 	uint32_t uncompressedSize;
 	uint16_t fileNameLength;
 	uint16_t extraFieldLength;
-	const char* fileName;
+	uint16_t commentLength;
+	uint16_t internalAttr;
+	uint32_t externalAttr;
+	uint32_t offsetOfLocalHeader;
+	std::string fileName;
+	std::string extraField;
+	std::string fileComment;
 }LocalFileHeader;
 
 typedef struct {
-
-}CentralDirectoryFileHeader;
+	uint16_t totalEntries;
+	std::vector<LocalFileHeader> entries;
+	uint32_t centralDirectorySize;
+	uint32_t cdOffset;
+	uint16_t commentLength;
+	std::string comment;
+}EndOfCentralFileRecord;
 
 #endif
