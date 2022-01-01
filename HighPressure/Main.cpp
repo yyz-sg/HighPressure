@@ -32,7 +32,6 @@ void PrintHelp()
 
 int main(int argc, char *argv[])
 {
-    printf("Success!\n");
     CommandLineParser clp(argc, argv);
 
     if (clp.GetParseStatus() == CommandLineParseStatus::ParsedVersion)
