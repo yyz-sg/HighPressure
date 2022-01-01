@@ -10,22 +10,22 @@ Description	: Source file for command line parsing object.
 ******************************************************/
 
 #include "CommandLineParser.hpp"
-#include <boost/program_options.hpp>
+//#include <boost/program_options.hpp>
 
-namespace po = boost::program_options;
+//namespace po = boost::program_options;
 
 CommandLineParser::CommandLineParser(int argc, char* argv[])
 {
 	/**** Initialize Member Variables ****/
-	m_enStatus = CommandLineParseStatus::NotParsed;
 	m_boRecursive = false;
 	m_boPrintVersion = false;
 	m_strInputDirectory = "";
 	m_strOutputFileName = "";
-	m_strError = "";
+	m_strError = "Too little argument.";
+	m_enStatus = CommandLineParseStatus::ParsingError;
 	/**** Initialize Member Variables ****/
 
-	/**** Try Parse Command Line ****/
+	/**** Try Parse Command Line ****
 	po::options_description cmdline_options("Command line input");
 	cmdline_options.add_options()
 		("input-directory", "directory to be compressed")
@@ -42,7 +42,7 @@ CommandLineParser::CommandLineParser(int argc, char* argv[])
 		po::store(po::command_line_parser(argc, argv).options(cmdline_options).positional(p).run(), cmdline_map);
 		po::notify(cmdline_map);
 	}
-	catch (std::exception /*e*/)
+	catch (std::exception /*e*)
 	{
 		//Parse Error, update status and error code
 		m_strError = "Too many argument or wrong argument provided.";
@@ -50,7 +50,7 @@ CommandLineParser::CommandLineParser(int argc, char* argv[])
 	}
 	/**** Try Parse Command Line ****/
 
-	/**** Store Parsing Result ****/
+	/**** Store Parsing Result ****
 	if (cmdline_map.count("version"))
 	{
 		m_boPrintVersion = true;
