@@ -26,7 +26,6 @@ fi
 if ${BUILDSUCCESS}
 then
 	cmake -S . -B "./${OUTPUT_DIR}" || { echo "CMake process failed."; BUILDSUCCESS=false; }
-	cmake --build "./${OUTPUT_DIR}/" --config Release
 fi
 
 if ${BUILDSUCCESS}
@@ -34,12 +33,15 @@ then
 	cmake --build "./${OUTPUT_DIR}/" --config Release || { echo "Build process failed."; BUILDSUCCESS=false; }
 fi
 
-if ${BUILDDIREXIST}
+if ${BUILDSUCCESS}
 then
-	echo "Existing dir, delete exist and create new \"${BUILD_OUTPUT_DEST}\" directory."
-	rm -r ${BUILD_OUTPUT_DEST} || { echo "Cannot delete existing \"${BUILD_OUTPUT_DEST}\" directory."; BUILDSUCCESS=false; }
-else
-	echo "Directory \"${BUILD_OUTPUT_DEST}\" does not exist. Creat directory."
+	if ${BUILDDIREXIST}
+	then
+		echo "Existing dir, delete exist and create new \"${BUILD_OUTPUT_DEST}\" directory."
+		rm -r ${BUILD_OUTPUT_DEST} || { echo "Cannot delete existing \"${BUILD_OUTPUT_DEST}\" directory."; BUILDSUCCESS=false; }
+	else
+		echo "Directory \"${BUILD_OUTPUT_DEST}\" does not exist. Creat directory."
+	fi
 fi
 
 if ${BUILDSUCCESS}
