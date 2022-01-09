@@ -27,7 +27,7 @@ void compress_buffer(void* in_buffer, size_t in_buffer_size, std::vector<uint8_t
     strm.zalloc = 0;
     strm.zfree = 0;
     strm.next_in = reinterpret_cast<uint8_t*>(in_buffer);
-    strm.avail_in = in_buffer_size;
+    strm.avail_in = (uInt)in_buffer_size;
     strm.next_out = temp_buffer;
     strm.avail_out = BUFSIZE;
 

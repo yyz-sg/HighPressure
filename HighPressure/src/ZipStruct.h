@@ -25,7 +25,7 @@ typedef struct {
 	uint32_t uncompressedCRC32;
 	uint32_t compressedSize;
 	uint32_t uncompressedSize;
-	uint16_t fileNameLength;
+	size_t fileNameLength;
 	uint16_t extraFieldLength;
 	uint16_t commentLength;
 	uint16_t internalAttr;
