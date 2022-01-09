@@ -17,12 +17,12 @@ namespace po = boost::program_options;
 CommandLineParser::CommandLineParser(int argc, char* argv[])
 {
 	/**** Initialize Member Variables ****/
-	m_enStatus = CommandLineParseStatus::NotParsed;
 	m_boRecursive = false;
 	m_boPrintVersion = false;
 	m_strInputDirectory = "";
 	m_strOutputFileName = "";
-	m_strError = "";
+	m_strError = "Too little argument.";
+	m_enStatus = CommandLineParseStatus::ParsingError;
 	/**** Initialize Member Variables ****/
 
 	/**** Try Parse Command Line ****/
